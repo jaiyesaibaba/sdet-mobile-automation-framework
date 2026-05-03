@@ -11,9 +11,6 @@ public void openSettingsTest() {
 
     SettingsPage settingsPage = new SettingsPage(driver);
 
-    Assert.assertTrue(
-            settingsPage.isSettingsPageDisplayed(),
-            "Settings app not launched"
-    );
+   Assert.assertTrue(settingsPage.isSettingsPageLoaded(), "Settings app not launched");
 }
 }

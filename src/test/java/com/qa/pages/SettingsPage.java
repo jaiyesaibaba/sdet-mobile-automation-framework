@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 public class SettingsPage {
 
@@ -42,32 +43,36 @@ public class SettingsPage {
 
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
-    String[] options = {"Network", "SIM", "Connection"};
+    try {
+        // Scroll to any possible network-related option
+        driver.findElement(AppiumBy.androidUIAutomator(
+            "new UiScrollable(new UiSelector().scrollable(true))" +
+            ".scrollIntoView(new UiSelector().className(\"android.widget.TextView\"))"
+        ));
 
-    for (String option : options) {
-        try {
-            // Scroll dynamically based on option
-            driver.findElement(AppiumBy.androidUIAutomator(
-                    "new UiScrollable(new UiSelector().scrollable(true))" +
-                    ".scrollIntoView(new UiSelector().textContains(\"" + option + "\"))"));
+        // Get all visible text elements
+        List<WebElement> elements = driver.findElements(By.className("android.widget.TextView"));
 
-            By locator = By.xpath("//*[contains(@text,'" + option + "')]");
+        for (WebElement el : elements) {
+            String text = el.getText().toLowerCase();
 
-            WebElement element = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(locator)
-            );
+            if (text.contains("network") || text.contains("sim") ||
+                text.contains("connection") || text.contains("mobile")) {
 
-            element.click();
-
-            System.out.println(" Clicked option: " + option);
-            return;
-
-        } catch (Exception e) {
-            System.out.println(" Not found: " + option);
+                System.out.println("✅ Found option: " + text);
+                el.click();
+                return;
+            }
         }
-    }
 
-    throw new RuntimeException("No Network/SIM/Connection option found in Settings");
+        throw new RuntimeException("No matching network option found");
+
+    } catch (Exception e) {
+        throw new RuntimeException("Settings page not stable or UI changed", e);
+    }
+}
+public boolean isSettingsPageLoaded() {
+    return driver.getPageSource().toLowerCase().contains("settings");
 }
     // -------------------------------
     // Verify Network Page
