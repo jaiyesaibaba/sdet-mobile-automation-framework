@@ -1,0 +1,24 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Mobile Automation Suite" parallel="false" thread-count="1">
+
+    <!-- 🔹 Listeners -->
+    <listeners>
+        <listener class-name="com.qa.listeners.TestListener"/>
+    </listeners>
+
+    <!-- 🔹 First Test -->
+    <test name="App Launch Test">
+        <classes>
+            <class name="com.qa.tests.FirstTest"/>
+        </classes>
+    </test>
+
+    <!-- 🔹 Settings Test -->
+    <test name="Settings Test">
+        <classes>
+            <class name="com.qa.tests.SettingsTest"/>
+        </classes>
+    </test>
+
+</suite>
