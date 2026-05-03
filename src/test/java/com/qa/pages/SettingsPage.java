@@ -3,6 +3,7 @@ package com.qa.pages;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.AppiumBy;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -39,39 +40,34 @@ public class SettingsPage {
     // -------------------------------
  public void clickNetwork() {
 
-    try {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
-        wait.until(d -> driver.getPageSource().length() > 0);
+    String[] options = {"Network", "SIM", "Connection"};
 
-        String[] options = {
-                "Network",
-                "Network & internet",
-                "Mobile network",
-                "Connections",
-                "SIM",
-                "SIM manager"
-        };
+    for (String option : options) {
+        try {
+            // Scroll dynamically based on option
+            driver.findElement(AppiumBy.androidUIAutomator(
+                    "new UiScrollable(new UiSelector().scrollable(true))" +
+                    ".scrollIntoView(new UiSelector().textContains(\"" + option + "\"))"));
 
-        for (String option : options) {
-            try {
-                driver.findElement(AppiumBy.androidUIAutomator(
-                        "new UiScrollable(new UiSelector().scrollable(true))" +
-                        ".scrollIntoView(new UiSelector().textContains(\"" + option + "\"))"
-                )).click();
+            By locator = By.xpath("//*[contains(@text,'" + option + "')]");
 
-                return; // success
+            WebElement element = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(locator)
+            );
 
-            } catch (Exception ignored) {
-                // try next option
-            }
+            element.click();
+
+            System.out.println(" Clicked option: " + option);
+            return;
+
+        } catch (Exception e) {
+            System.out.println(" Not found: " + option);
         }
-
-        throw new RuntimeException("No Network/SIM option found in this device Settings UI");
-
-    } catch (Exception e) {
-        throw new RuntimeException("Settings page not stable or not loaded", e);
     }
+
+    throw new RuntimeException("No Network/SIM/Connection option found in Settings");
 }
     // -------------------------------
     // Verify Network Page
