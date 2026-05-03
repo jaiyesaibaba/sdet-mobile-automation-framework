@@ -1,7 +1,33 @@
-target/
-reports/
-*.log
+# Compiled class files
 *.class
+
+# Log files
+*.log
+
+# Maven build output
+target/
+
+# IDE files
 .idea/
 *.iml
+
+# OS files
 .DS_Store
+
+# BlueJ
+*.ctxt
+
+# Java packages
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+
+# Crash logs
+hs_err_pid*
+replay_pid*
+
+# Reports
+reports/
+test-output/
