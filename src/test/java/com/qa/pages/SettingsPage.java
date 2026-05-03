@@ -41,35 +41,26 @@ public class SettingsPage {
     // -------------------------------
  public void clickNetwork() {
 
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+    List<WebElement> elements = driver.findElements(By.className("android.widget.TextView"));
 
-    try {
-        // Scroll to any possible network-related option
-        driver.findElement(AppiumBy.androidUIAutomator(
-            "new UiScrollable(new UiSelector().scrollable(true))" +
-            ".scrollIntoView(new UiSelector().className(\"android.widget.TextView\"))"
-        ));
+    for (WebElement el : elements) {
+        String text = el.getText();
+        System.out.println("Found: " + text);
 
-        // Get all visible text elements
-        List<WebElement> elements = driver.findElements(By.className("android.widget.TextView"));
+        if (text != null && !text.isEmpty()) {
+            if (text.toLowerCase().contains("network") ||
+                text.toLowerCase().contains("sim") ||
+                text.toLowerCase().contains("mobile") ||
+                text.toLowerCase().contains("connection")) {
 
-        for (WebElement el : elements) {
-            String text = el.getText().toLowerCase();
-
-            if (text.contains("network") || text.contains("sim") ||
-                text.contains("connection") || text.contains("mobile")) {
-
-                System.out.println("✅ Found option: " + text);
                 el.click();
+                System.out.println("Clicked: " + text);
                 return;
             }
         }
-
-        throw new RuntimeException("No matching network option found");
-
-    } catch (Exception e) {
-        throw new RuntimeException("Settings page not stable or UI changed", e);
     }
+
+    throw new RuntimeException("No matching option found in Settings screen");
 }
 public boolean isSettingsPageLoaded() {
     return driver.getPageSource().toLowerCase().contains("settings");
