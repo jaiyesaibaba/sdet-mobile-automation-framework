@@ -32,22 +32,6 @@ It follows industry-standard **Page Object Model (POM)** design pattern and supp
 
 ---
 
-## 📁 Project Structure
-src
-├── test
-│ ├── java
-│ │ ├── com.qa.base
-│ │ ├── com.qa.pages
-│ │ ├── com.qa.tests
-│ │ ├── com.qa.utils
-│ │ └── com.qa.listeners
-│
-├── resources
-│ └── config.properties
-
-
----
-
 ## 🚀 Features
 
 - 📱 Mobile App Automation (Android)
@@ -63,7 +47,7 @@ src
 
 ## ▶️ How to Run Tests
 
-### 1. Clone Repository
+1. Clone Repository
 ```bash
 git clone https://github.com/your-username/sdet-mobile-automation-framework.git
 
