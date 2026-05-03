@@ -3,26 +3,25 @@ package com.qa.base;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import org.testng.annotations.*;
-import io.appium.java_client.android.AndroidDriver;
+
 import java.net.URL;
 import java.time.Duration;
 
 public class BaseTest {
-protected AndroidDriver driver;  // 🔥 IMPORTANT
 
-    @BeforeMethod   // 🔥 use BeforeMethod (better for stability)
+    protected AndroidDriver driver;
+
+    @BeforeMethod
     public void setup() throws Exception {
 
         UiAutomator2Options options = new UiAutomator2Options();
 
         options.setPlatformName("Android");
-        options.setDeviceName("Android Device");
-        options.setUdid("10BE1T1B93000Y0");
+        options.setDeviceName("Android Emulator");
+        options.setAppPackage("com.android.settings");
+        options.setAppActivity(".Settings");
+
         options.setAutomationName("UiAutomator2");
-
-       options.setAppPackage("com.android.settings");
-options.setAppActivity("com.android.settings.Settings");
-
         options.setNoReset(true);
 
         driver = new AndroidDriver(
